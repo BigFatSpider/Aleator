@@ -1,2 +1,11 @@
 # Aleator
 Generates high-entropy random passwords
+
+## Discussion
+Secure passwords that are easy to remember are nontrivial to create. [Xkcd](https://xkcd.com/936/) has popularized the multiple-random-words paradigm, and while the analysis is insightful, [2012](https://arstechnica.com/information-technology/2012/12/25-gpu-cluster-cracks-every-standard-windows-password-in-6-hours/) had already seen xkcd's value of 1000 guesses/second far surpassed. Many websites prevent these hailstorms of guesses, and password managers all but eliminate user error, but password managers are not without bugs and in any case require a user password themselves, and strong passwords can only help users of poorly secured websites. The best a user can hope to do for the passwords they must create is to generate them randomly with the highest entropy that still permits memorability.
+
+Four randomly chosen common words amount to about 44 bits of entropy by xkcd's calculation. That depends on dictionary size, whether repeats are allowed, and whether the dictionary permits complete sentences or common phrases. Ignoring sentence structure, four words chosen uniformly at random without repeats from a dictionary of 5000 words yields an entropy of 49 bits, calculated by log2(5000! / (5000 - 4)!), which would take about 30 minutes to crack at 350 billion guesses/second. Since humans tend to think of "random" as "evenly spaced", the effective entropy would be lower if the words are chosen by the user trying to "be random". If we double the number of words chosen from the 5000-word dictionary to eight, we increase to about 98 bits of entropy, which would take about 35 billion years to crack brute force at the aforementioned speed.
+
+To prevent creation of complete sentences, which amounts to a pattern and thus a loss of entropy, we can use a dictionary of all nouns. [Here](http://www.desiquintans.com/downloads/nounlist/nounlist.txt) is a list of nearly 5000 nouns. There is some repetition, so all-lower-case passwords beginning with ear, drum, and earthworm would be duplicates of those beginning with eardrum, earth, and worm, but PascalCase solves this problem. Unfortunately, eight randomly chosen words from this noun list will very likely form a prohibitively long password.
+
+TODO: Try adding adjectives and removing vowels and resulting duplicates
